@@ -44,7 +44,11 @@ const downloadLogs = async (): Promise<string[]> => {
                 if (err) reject(err);
                 else resolve(fullPath);
             });
-        });
+        }).catch((err)=>{
+//             console.log(err)
+//             console.log(data)
+//             console.log(object)
+                       });
     })) as string[];
 
     return filePaths;
@@ -53,7 +57,7 @@ const downloadLogs = async (): Promise<string[]> => {
 const unzipLogs = async (filePaths: string[]): Promise<string[]> => {
     return removeUndef(await Promise.all(filePaths.map(filePath => {
         return new Promise<string | undefined>((resolve, reject) => {
-            if (filePath.endsWith('.gz')) {
+            if (filePath !== undefined && filePath.endsWith('.gz')) {
                 const newFileName = filePath.substr(0, filePath.length - '.gz'.length);
                 gunzip(filePath, newFileName, () => {
                     // now remove the file
