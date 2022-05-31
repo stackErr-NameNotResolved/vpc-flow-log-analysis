@@ -13,7 +13,7 @@ const generateGraphTask = 'generate nodes and edges';
 const writeGraphTask = 'export graph data to file';
 export const generateGraph = async (requests: Request[]): Promise<string> => {
     console.time(generateGraphTask);
-    const edges = getEdges(requests, 10, 50);
+    const edges = getEdges(requests, 1, 50);
     const nodes = getNodes(edges);
     console.timeEnd(generateGraphTask);
 
@@ -51,7 +51,7 @@ const getNodes = (edges: Edge[]): Node[] => {
 }
 
 const separator = '<%>';
-const getEdges = (requests: Request[], minOccurrencesThreshold: number = 10, topK: number = -1): Edge[] => {
+const getEdges = (requests: Request[], minOccurrencesThreshold: number = 1, topK: number = -1): Edge[] => {
     const countByEdge: { [edge: string]: number } = {};
     requests.forEach(req => {
         const src = getNode(req.srcAddress, req.srcPort);
@@ -85,15 +85,10 @@ const getEdges = (requests: Request[], minOccurrencesThreshold: number = 10, top
     return edges;
 }
 
-const randomIPs = {};
 const getNode = (address: string, port: number): Node => {
     if (address in knownAddresses) {
         return knownAddresses[address];
-    } else if (address in randomIPs) {
-        return randomIPs[address];
+    } else {
+        return address;
     }
-    
-    const randomizedIP = randomip('0.0.0.0', 0);
-    randomIPs[address] = randomizedIP;
-    return randomizedIP;
 }
