@@ -5,6 +5,13 @@ The code contained in this repository can analyze AWS VPC flow logs and visualiz
 I have written a blog post on [pfisterer.dev](https://pfisterer.dev) that details how it works, why it's useful and how you can use and adjust it for your own needs:
 [Analyzing and Visualizing AWS VPC Flow Logs](https://pfisterer.dev/posts/visualize-vpc-flow-logs-graph).
 
+## Environment
+
+* docker run -it -p 8080:8080 -v %cd%:/mnt debian
+* cd mnt
+* apt update
+* apt install npm -y
+
 ## Installation
 Use `npm install` to install the dependencies.
 
